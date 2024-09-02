@@ -1,0 +1,122 @@
+div.StartMenu
+{
+display: flex;
+justify-content: center;
+flex-direction:column;
+align-items:normal;
+}
+div
+{
+    text-align:center;
+    background-color:lavender;
+    background: radial-gradient(circle farthest-side,lavender 40% , rgba(240,248,255,0.8) 100%);
+    border-collapse:collapse;
+    border-radius:30px;
+    transition: 0.5s;
+    animation: penismusic 0.2s alternate 1; animation-play-state: running;
+}
+/*div.PlayerRow img{height:auto;width:auto;}
+div.PlayerRow
+{
+background: radial-gradient(circle farthest-side,blue 40% , rgba(240,248,255,0.8) 100%);
+}
+*/
+div.AIRow
+{
+    background-color:red;
+    background: radial-gradient(circle farthest-side,red 40% , rgba(240,248,255,0.8) 100%);
+
+}
+@keyframes penismusic
+{
+    /*0%{transform: translateX(1700%)}*/
+    0%{transform: scaleY(0%)}
+    100%{transform: scaleY(100%)}
+}
+div:hover
+{
+ transition: 1s;
+}
+img
+{
+    height:5%;
+    width:5%;
+    border-radius:5px;
+    vertical-align: middle;
+    transition: 2s;
+    border:0px solid black;
+}
+
+.wololo
+{
+animation:prokol 0.4s alternate 1; animation-play-state: running; 
+transition: 0.3s;
+}
+@keyframes prokol
+{
+    /*0%{transform: translateX(1700%)}*/
+    0%{transform: translateX(1700%)}
+    50%{transform: translateX(-25%)}
+    80%{transform: translateX(0%)}
+    100%{transform: translateX(0%)}
+}
+        
+img.pwololo
+{
+animation:pwrokol 0.4s alternate 1; animation-play-state: running; 
+transition: 0.3s;
+}
+@keyframes pwrokol
+{
+    /*0%{transform: translateX(1700%)}*/
+    0%{transform: translateX(0%)}
+    20%{transform: translateX(25%)}
+    100%{transform: translateX(-1700%)}
+}
+
+img.Reveal
+{
+animation:SetIn 0.4s alternate 1; animation-play-state: running; 
+transition: 0.3s;
+}
+        
+@keyframes SetOut
+{
+    /*0%{transform: translateX(1700%)}*/
+    0%{transform: scaleX(100%)}
+    100%{transform: scaleX(0%)}
+}
+@keyframes SetIn
+{
+    /*0%{transform: translateX(1700%)}*/
+    0%{transform: scaleX(0%)}
+    100%{transform: scaleX(100%)}
+}        
+@keyframes MenuStart
+{
+0% 
+{
+transform-origin: top;
+transform:scaleY(0%);
+}
+100%
+{
+transform-origin: top;
+transform:scaleY(100%);
+}
+}
+@keyframes MenuEnd
+{
+0% 
+{
+transform-origin: top;
+transform:
+scaleY(100%)
+}
+100%
+{
+transform-origin: top;
+transform:
+scaleY(0%);
+}
+}
