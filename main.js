@@ -104,9 +104,9 @@ let Game = function(Count,AiMemorySize=3)
             }
         }   
         //else{}
-            playerTurn = !playerTurn;
             HideBack(Array[0]);
             HideBack(Array[1]);
+            playerTurn = !playerTurn;
             RevealedCards.splice(0, 2);
             SwitchControl();
             return -1;
