@@ -56,6 +56,7 @@ let Game = function(Count,AiMemorySize=3)
                     TestIMG.className = 'wololo';
                     TestIMG.id = Math.floor(Math.random() * 3);
                     TestIMG.src = 'Content\\Units\\TurretT4_Field.png';
+                    //if (i > 1) console.log(Rows[i]);
                     (i > 1) ? TestIMG.addEventListener('click', IMGClick) : undefined;
                     Rows[i].append(TestIMG);
                 }, 15 * (i + j + 1));
@@ -67,20 +68,21 @@ let Game = function(Count,AiMemorySize=3)
         }, 400 * (i + 1));
 
     }
-    //setTimeout(() => { document.getElementsByTagName('div')[0].remove(); }, 399);
-    function Test() {
-        let Result;
-        //do {
+
+    function Test()
+    {
+        let y = setInterval(() =>
+        {
+            if (playerTurn) { clearInterval(y); return; }
             let list = Array.from(Rows[0].getElementsByClassName('wololo')).concat(Array.from(Rows[1].getElementsByClassName('wololo')));
             let one = Math.randomInt(list.length);
+            IMGClick(list[one]);
             let two;
             do {
                 two = Math.randomInt(list.length);
             } while (two == one);
-            IMGClick(list[one]);
-            Result = IMGClick(list[two], true);
-     //   } while (Result==2);
-        //   console.log(list);
+            IMGClick(list[two], true);
+        },410);
     }
 
     function CheckSelectedIMG(AI=false) {
@@ -97,9 +99,8 @@ let Game = function(Count,AiMemorySize=3)
             else
             {
                // console.log(AI);
-                if (AI) AiInfoDIV.textContent = ++AiCounter;
+                AiInfoDIV.textContent = ++AiCounter;
                 return 2;
-                //if(AI) setTimeout(Test,50);
             }
         }   
         //else{}
@@ -112,15 +113,16 @@ let Game = function(Count,AiMemorySize=3)
     }
     function IMGClick(event, AI = false)
     {
-      //  console.log(RevealedCards);    
+        //  console.log(RevealedCards);    
         let image = event;    //Раскрыл противник  
+
         if (event.target != undefined)  //Раскрыл игрок
         {
             image = event.target;
             if (!playerTurn) return;
         }
        
-        if (RevealedCards.length >= 2) return; //Запретить раскрытие больше 2 элементов
+        if (RevealedCards.length >= 2) return; //Запретить раскрытие последующих элементов, если уже есть пара
         RevealedCards.push(image);
         image.style = 'animation:SetOut 0.4s alternate 1';
         image.style.animationPlayState = 'running';
@@ -136,27 +138,23 @@ let Game = function(Count,AiMemorySize=3)
                     image.src = 'Content\\Units\\TurretT3_Field.png'; //break;
             }
             image.className = 'Reveal';
+            if (AI) return;
             if (RevealedCards.length == 2)
                 setTimeout(CheckSelectedIMG, 400, AI);
         }, 400);
     }
    
-    function HideBack(image) {
+    function HideBack(image)
+    {
         image.style = 'animation:SetOut 0.4s alternate 1';
         image.style.animationPlayState = 'running';
-        image.addEventListener('click', IMGClick);
+        if(playerTurn) image.addEventListener('click', IMGClick);
         setTimeout(() => {
             image.style = "animation:SetIn 0.4s alternate 1";
             image.src = 'Content\\Units\\TurretT4_Field.png';
             image.className = 'wololo';
         }, 350);
     }
-  /*  function Trash(image) {
-        image.className = 'pwololo';
-        image.style = "";
-        setTimeout(() => { image.className = 'wololo'; }, 300);
-    }*/
-
 
 
     //наборы клавиш
