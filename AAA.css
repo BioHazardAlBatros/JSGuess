@@ -5,6 +5,23 @@ justify-content: center;
 flex-direction:column;
 align-items:normal;
 }
+
+button
+{
+transition: 0.2s;
+}
+button:hover
+{
+border-radius: 8px;
+outline: 2px solid skyblue;
+transition: 0.2s;
+}
+div.PlayerRow img.wololo:hover
+{
+border-radius: 0px;
+outline: 4px solid black;
+transition: 0.1s;
+}
 div
 {
     text-align:center;
@@ -50,6 +67,12 @@ img
 .wololo
 {
 animation:prokol 0.4s alternate 1; animation-play-state: running; 
+transition: 0.3s;
+}
+div.Notify
+{
+position:absolute;
+z-index:1;
 transition: 0.3s;
 }
 @keyframes prokol

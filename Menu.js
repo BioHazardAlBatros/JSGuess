@@ -4,7 +4,7 @@
     let StartButton = document.createElement('button');
     let OptionsButton = document.createElement('button');
 
-    let OptionsCount = 4;
+    let OptionsCount = 2;
 
     Menu.className = 'StartMenu';
     Menu.style.animation = 'MenuStart 0.4s alternate 1';
