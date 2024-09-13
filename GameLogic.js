@@ -57,8 +57,8 @@ let Game = function (Count, AiMemoryMaxSize = Count*2) {
     ///
     ///
     ///Debug Revealed Cards array
-    ///let Prekol = document.body.appendChild(document.createElement('div'));
-    ///setInterval(() => { Prekol.textContent = RevealedCards[0].id +' ' +RevealedCards[1].id }, 100);
+    let Prekol = document.body.appendChild(document.createElement('div'));
+    setInterval(() => { Prekol.textContent = "DEBUG IDs" + RevealedCards[0].id +' ' +RevealedCards[1].id }, 100);
     ///
     ///
     ///
@@ -79,8 +79,6 @@ let Game = function (Count, AiMemoryMaxSize = Count*2) {
 
     for (let i = 0; i < 4; i++)
     {
-       
-        
         Rows[i].setAttribute('align', 'center');
         Rows[i].className = (i > 1) ? "PlayerRow" : "AIRow";
         setTimeout(() => {
