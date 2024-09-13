@@ -1,37 +1,45 @@
 ﻿Math.randomInt = function (Max = 100000) {
     return Math.floor(Math.random() * Max);
 }
+function Restart(GameWindow,Count) {
+    GameWindow.style.animation = 'MenuEnd 0.8s alternate 1';
+    GameWindow.style.animationPlayState = 'running';
+    setTimeout(() => { GameWindow.remove(); Game(Count); }, 800);
+}
+
 //AI Cheats somehow. 
-let Game = function (Count, AiMemoryMaxSize = 0) {
-    const InteractiveDIV = document.createElement('div');
-    const AiInfoDIV = document.createElement('div');
-    const InfoDIV = document.createElement('div');
+let Game = function (Count, AiMemoryMaxSize = 5) {
+    let Prekol = 0;
+    let InteractiveDIV = document.createElement('div');
+    let AiInfoDIV = document.createElement('div');
+    let InfoDIV = document.createElement('div');
     let AiCounter = 0, Counter = 0;
     InfoDIV.textContent = 0;
     AiInfoDIV.textContent = 0;
 
+    let AIFirstRow = document.createElement('div');
+    let AISecondRow = document.createElement('div');
+    let FirstRow = document.createElement('div');
+    let SecondRow = document.createElement('div');
 
-    const AIFirstRow = document.createElement('div');
-    const AISecondRow = document.createElement('div');
-    const FirstRow = document.createElement('div');
-    const SecondRow = document.createElement('div');
-
-    document.body.append(AiInfoDIV);
-    document.body.append(InteractiveDIV);
-    document.body.append(InfoDIV);
-
+    let GameWindow = document.body.appendChild(document.createElement('div'));
+    GameWindow.append(AiInfoDIV);
+    GameWindow.append(InteractiveDIV);
+    GameWindow.append(InfoDIV);
     let playerTurn = Math.randomInt(2);
     let RevealedCards = new Array();
     let AiMemory = new Array();
-    let Rows = new Array(4); Rows = [AIFirstRow, AISecondRow, FirstRow, SecondRow];
+    let Rows = [AIFirstRow, AISecondRow, FirstRow, SecondRow];
 
 
     function SwitchControl() {
-        let Notification = document.createElement('div');
+        let Notification = InteractiveDIV.appendChild(document.createElement('div'));
         Notification.className = 'wololo';
         Notification.setAttribute('align', 'center');
-        InteractiveDIV.append(Notification);
+        Notification.style.animation = 'GreenNotification 0.5s alternate 1';
+        Notification.style.animationPlayState = 'running'; 
         let text = ((playerTurn) ? "Your " : "Enemy ") + "turn";
+        Notification.classList.add((playerTurn) ? "PlayerTurn":"EnemyTurn");
         for (let i = 0; i < text.length; i++) {
             setTimeout(() => { Notification.textContent += text[i]; }, 100 * (i + 1));
             setTimeout(() => { Notification.textContent = Notification.textContent.replace(/.$/, ''); }, 130 * (text.length + i + 1));
@@ -62,18 +70,24 @@ let Game = function (Count, AiMemoryMaxSize = 0) {
         Rows[i].setAttribute('align', 'center');
         Rows[i].className = (i > 1) ? "PlayerRow" : "AIRow";
         setTimeout(() => {
-            for (let j = 0; j < Count * 5; j++) {
-                setTimeout(() => {
-                    if (i == 2 && j==0) Counters = [Number(Validator.MaxGreen), Number(Validator.MaxYellow), Number(Validator.MaxRed)];
-                    let TestIMG = document.createElement('img');
-                    TestIMG.className = 'wololo';
+            for (let j = 0; j < Count * 5; j++)
+            {
+                setTimeout(() =>
+                {
+                    if (i == 2 && j == 0) Counters = [Number(Validator.MaxGreen), Number(Validator.MaxYellow), Number(Validator.MaxRed)];
+                    
                     let CardType = Math.floor(Math.random() * 3);
                     while(Counters[CardType]<=0)
-                    { CardType = Math.floor(Math.random() * 3); }
+                    CardType = Math.floor(Math.random() * 3);
                     Counters[CardType] -= 1;
+
+                    let TestIMG = document.createElement('img');
+                    TestIMG.className = 'wololo';
                     TestIMG.setAttribute("CardType", CardType);
+                    TestIMG.id = Prekol++;
                     TestIMG.src = 'Content\\Units\\TurretT4_Field.png';
-                    if(i > 1) TestIMG.addEventListener('click', IMGClick);
+
+                    if (i > 1) TestIMG.addEventListener('click', IMGClick);
                     Rows[i].append(TestIMG);
                 }, 15 * (i + j + 1));
             }
@@ -90,16 +104,21 @@ let Game = function (Count, AiMemoryMaxSize = 0) {
             let one = Math.randomInt(list.length);
             IMGClick(list[one]);
            // console.log(AiMemory,' ',list[one]);
+            if (list.length == 1) { clearInterval(y); GameOver("broke the game!"); return; }
             for (let i = 0; i < AiMemory.length; i++)
             {
-                if (AiMemory[i].getAttribute("CardType") == list[one].getAttribute("CardType"))
+                if ((AiMemory[i].getAttribute("CardType") == list[one].getAttribute("CardType")))
                 {
+                //    if(document.getElementById(AiMemory[i].id)!=null)
                     IMGClick(AiMemory[i],true); return;
                 }
             }
+            
             let two;
             do {
+
                 two = Math.randomInt(list.length);
+
             } while (two == one);
             IMGClick(list[two], true);
         }, 410);
@@ -132,9 +151,9 @@ let Game = function (Count, AiMemoryMaxSize = 0) {
         if (!playerTurn)
         {
             //console.log(AiMemory);
-            AiMemory.push(Array[0], Array[1]);
+            AiMemory.unshift(Array[0], Array[1]);
             if (AiMemory.length > AiMemoryMaxSize)
-                AiMemory.splice(AiMemoryMaxSize);
+                AiMemory.splice(AiMemoryMaxSize-1);
         } 
         HideBack(Array[0]);
         HideBack(Array[1]);
@@ -187,21 +206,29 @@ let Game = function (Count, AiMemoryMaxSize = 0) {
         }, 350);
     }
 
-    function GameOver()
+    function GameOver(Message="won!")
     {
         let Notification = document.createElement('div');
         Notification.className = 'wololo';
+        Notification.style.animation = 'GreenNotification 0.5s alternate 1';
+        Notification.style.animationPlayState = 'running';
+        Notification.classList.add('GameOver');
         Notification.setAttribute('align', 'center');
         InteractiveDIV.append(Notification);
-        let text = ((playerTurn) ? "You " : "Enemy ") + "won!";
+        let text = ((playerTurn) ? "You " : "Enemy ") + Message;
         for (let i = 0; i < text.length; i++) {
             setTimeout(() => { Notification.textContent += text[i]; }, 100 * (i + 1));
         }
     }
     //наборы клавиш
     //let List=new Array();
-    function Keys(event) { if (!playerTurn && event.key == 'l') EnemyTurn(); }
-    document.addEventListener('keyup', Keys);
+    function Keys(event)
+    {
+        if (event.key == 'r')
+            Restart(GameWindow,Count);
+    //    if (!playerTurn && event.key == 'l') EnemyTurn();
+    }
+    document.addEventListener('keyup', Keys, { once: true});
 
    // document.body.innerHTML = '';
     //Game = null;

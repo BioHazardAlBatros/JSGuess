@@ -1,11 +1,15 @@
+*{font-family: system-ui;}
 div.StartMenu
 {
 display: flex;
 justify-content: center;
 flex-direction:column;
-align-items:normal;
+align-items:center;
 }
-
+div.StartMenu button
+{
+width:30%;
+}
 button
 {
 transition: 0.2s;
@@ -21,6 +25,18 @@ div.PlayerRow img.wololo:hover
 border-radius: 0px;
 outline: 4px solid black;
 transition: 0.1s;
+}
+.EnemyTurn
+{
+color:red;
+}
+.PlayerTurn
+{
+color:blue;
+}
+.GameOver
+{
+color:green;
 }
 div
 {
@@ -143,3 +159,19 @@ transform:
 scaleY(0%);
 }
 }
+
+@keyframes GreenNotification{
+  0% 
+{
+background:none;
+background-color:lime;
+  }
+100% 
+{
+background:none;
+background-color: none;
+}
+
+}
+
+
