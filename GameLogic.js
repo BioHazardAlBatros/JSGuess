@@ -1,6 +1,13 @@
 ﻿Math.randomInt = function (Max = 100000) {
     return Math.floor(Math.random() * Max);
 }
+Array.prototype.removeElementFromArray = function (element)
+{
+    let index = this.indexOf(element);
+    if (index > -1)
+        this.splice(index, 1);
+    return;
+}
 function Restart(GameWindow,Count) {
     GameWindow.style.animation = 'MenuEnd 0.8s alternate 1';
     GameWindow.style.animationPlayState = 'running';
@@ -8,8 +15,8 @@ function Restart(GameWindow,Count) {
 }
 
 //AI Cheats somehow. 
-let Game = function (Count, AiMemoryMaxSize = 5) {
-    let Prekol = 0;
+let Game = function (Count, AiMemoryMaxSize = Count*2) {
+    let IDCounter = 0;
     let InteractiveDIV = document.createElement('div');
     let AiInfoDIV = document.createElement('div');
     let InfoDIV = document.createElement('div');
@@ -47,7 +54,14 @@ let Game = function (Count, AiMemoryMaxSize = 5) {
         setTimeout(() => { Notification.remove(); if (!playerTurn) EnemyTurn(); }, 130 * (text.length * 2 + 1));
     }
     setTimeout(SwitchControl, 400 * 5 + 100);
-
+    ///
+    ///
+    ///Debug Revealed Cards array
+    ///let Prekol = document.body.appendChild(document.createElement('div'));
+    ///setInterval(() => { Prekol.textContent = RevealedCards[0].id +' ' +RevealedCards[1].id }, 100);
+    ///
+    ///
+    ///
     let Validator =
     {
         type: Math.randomInt(3),
@@ -84,7 +98,7 @@ let Game = function (Count, AiMemoryMaxSize = 5) {
                     let TestIMG = document.createElement('img');
                     TestIMG.className = 'wololo';
                     TestIMG.setAttribute("CardType", CardType);
-                    TestIMG.id = Prekol++;
+                    TestIMG.id = IDCounter++;
                     TestIMG.src = 'Content\\Units\\TurretT4_Field.png';
 
                     if (i > 1) TestIMG.addEventListener('click', IMGClick);
@@ -95,18 +109,34 @@ let Game = function (Count, AiMemoryMaxSize = 5) {
         }, 400 * (i + 1));
 
     }
-
+    function TestPlayer() {
+        let y = setInterval(() => {
+            if (!playerTurn) { clearInterval(y); return; }
+            let list = Array.from(Rows[2].getElementsByClassName('wololo')).concat(Array.from(Rows[3].getElementsByClassName('wololo')));
+            if (list.length == 0) { clearInterval(y); GameOver(); return; }
+            let one = Math.randomInt(list.length);
+            IMGClick(list[one]);
+            if (list.length == 1) { clearInterval(y); GameOver("broke the game!"); return; }
+            let two;
+            do {
+                two = Math.randomInt(list.length);
+            } while (two == one);
+            IMGClick(list[two], true);
+        }, 410);
+    }
     function EnemyTurn() {
         let y = setInterval(() => {
             if (playerTurn) { clearInterval(y); return; }
             let list = Array.from(Rows[0].getElementsByClassName('wololo')).concat(Array.from(Rows[1].getElementsByClassName('wololo')));
             if (list.length == 0) { clearInterval(y); GameOver(); return; }
             let one = Math.randomInt(list.length);
+            AiMemory.removeElementFromArray(list[one]);
             IMGClick(list[one]);
            // console.log(AiMemory,' ',list[one]);
             if (list.length == 1) { clearInterval(y); GameOver("broke the game!"); return; }
             for (let i = 0; i < AiMemory.length; i++)
             {
+          //      if (AiMemory[i] === list[one]) console.log("wtf detected");
                 if ((AiMemory[i].getAttribute("CardType") == list[one].getAttribute("CardType")))
                 {
                 //    if(document.getElementById(AiMemory[i].id)!=null)
@@ -140,9 +170,10 @@ let Game = function (Count, AiMemoryMaxSize = 5) {
             else {
                 for (let i = 0; i < 2; i++)
                 {
-                    let index = AiMemory.indexOf(Array[i]);
-                    if (index > -1)
-                        AiMemory.splice(index, 1);
+                    AiMemory.removeElementFromArray(Array[i]);
+                //    let index = AiMemory.indexOf(Array[i]);
+                //    if (index > -1)
+                 //       AiMemory.splice(index, 1);
                 }
                 AiInfoDIV.textContent = ++AiCounter;
                 return 2;
@@ -224,11 +255,19 @@ let Game = function (Count, AiMemoryMaxSize = 5) {
     //let List=new Array();
     function Keys(event)
     {
+        
         if (event.key == 'r')
             Restart(GameWindow,Count);
     //    if (!playerTurn && event.key == 'l') EnemyTurn();
     }
-    document.addEventListener('keyup', Keys, { once: true});
+    function KeysSPrekolami(event) {
+        if (event.key == 'b') {
+            console.log("call");
+            TestPlayer(); return;
+        }
+}
+    document.addEventListener('keydown', Keys, { once: true });
+    document.addEventListener('keydown', KeysSPrekolami,);
 
    // document.body.innerHTML = '';
     //Game = null;
