@@ -1,6 +1,9 @@
 ﻿let CreateMenu = function () {
-
+    titleName.textContent = "JSGuess! Меню";
+    
     let Menu = document.createElement('div');
+    let titleHeader = Menu.appendChild(document.createElement('h1'));
+    titleHeader.textContent = "JSGuess!";
     let StartButton = document.createElement('button');
     let OptionsButton = document.createElement('button');
 
@@ -14,12 +17,12 @@
     Menu.style.height = window.innerHeight * 0.75 + 'px';
 
     StartButton.textContent = "Начать";
-    OptionsButton.textContent = "Опции";
+    OptionsButton.textContent = "Выбор сложности";
     Menu.append(StartButton, OptionsButton);
     StartButton.addEventListener('click', (event) => {
         Menu.style.animation = 'MenuEnd 0.8s alternate 1';
         Menu.style.animationPlayState = 'running';
-        setTimeout(() => { Menu.remove(); Game(OptionsCount); }, 700);
+        setTimeout(() => { titleName.textContent = "JSGuess! Игра"; Menu.remove(); Game(OptionsCount); }, 700);
     });
 
     OptionsButton.addEventListener('click', function RevealOptions(event) {
@@ -38,6 +41,14 @@
                 OptionsTable.style.animationPlayState = 'running';
                 setTimeout(() => { OptionsTable.remove(); OptionsButton.addEventListener('click', RevealOptions); }, 150);
             });
+            TempButton.addEventListener('mouseover', (event) => {
+                OptionDescription = OptionsTable.appendChild(document.createElement('div'));
+                OptionDescription.id = "Description";
+                OptionDescription.textContent = "x"+TempButton.textContent + " множитель сложности.";
+            });
+            TempButton.addEventListener('mouseleave', (event) => {
+                document.getElementById("Description").remove();
+            })
             OptionsTable.append(TempButton);
         }
     }

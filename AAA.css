@@ -5,6 +5,11 @@ display: flex;
 justify-content: center;
 flex-direction:column;
 align-items:center;
+border: 1px solid black;
+}
+div.Game
+{
+border: 1px solid black;
 }
 div.StartMenu button
 {
@@ -20,7 +25,7 @@ border-radius: 8px;
 outline: 2px solid skyblue;
 transition: 0.2s;
 }
-div.PlayerRow img.wololo:hover
+div.PlayerRow img.closed:hover
 {
 border-radius: 0px;
 outline: 4px solid black;
@@ -79,8 +84,7 @@ img
     transition: 2s;
     border:0px solid black;
 }
-
-.wololo
+.closed
 {
 animation:prokol 0.4s alternate 1; animation-play-state: running; 
 transition: 0.3s;
@@ -100,7 +104,7 @@ transition: 0.3s;
     100%{transform: translateX(0%)}
 }
         
-img.pwololo
+img.opened
 {
 animation:pwrokol 0.4s alternate 1; animation-play-state: running; 
 transition: 0.3s;
