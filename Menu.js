@@ -41,14 +41,16 @@
                 OptionsTable.style.animationPlayState = 'running';
                 setTimeout(() => { OptionsTable.remove(); OptionsButton.addEventListener('click', RevealOptions); }, 150);
             });
-            TempButton.addEventListener('mouseover', (event) => {
-                OptionDescription = OptionsTable.appendChild(document.createElement('div'));
-                OptionDescription.id = "Description";
-                OptionDescription.textContent = "x"+TempButton.textContent + " множитель сложности.";
-            });
-            TempButton.addEventListener('mouseleave', (event) => {
-                document.getElementById("Description").remove();
-            })
+            if (navigator.maxTouchPoints == 0) {
+                TempButton.addEventListener('mouseover', (event) => {
+                    OptionDescription = OptionsTable.appendChild(document.createElement('div'));
+                    OptionDescription.id = "Description";
+                    OptionDescription.textContent = "x" + TempButton.textContent + " множитель сложности.";
+                });
+                TempButton.addEventListener('mouseleave', (event) => {
+                    document.getElementById("Description").remove();
+                })
+            }
             OptionsTable.append(TempButton);
         }
     }
