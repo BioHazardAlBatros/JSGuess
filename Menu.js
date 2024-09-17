@@ -34,9 +34,17 @@
         for (let i = 0; i < 3; i++) {
             // i можно передать как аргумент для размера массива памяти
             let TempButton = document.createElement('button');
-            TempButton.textContent = Math.pow(2, i);
+            TempButton.setAttribute("multiplier", Math.pow(2, i));
+            let tt;
+            switch (i)
+            {
+                case 0: tt = "Простой"; break;
+                case 1: tt = "Средний"; break;
+                case 2: tt = "Тяжелый";
+            }
+            TempButton.textContent = tt;
             TempButton.addEventListener('click', (event) => {
-                OptionsCount = parseInt(event.target.textContent, 10);
+                OptionsCount = parseInt(event.target.getAttribute("multiplier"), 10);
                 OptionsTable.style.animation = 'MenuEnd 0.2s alternate 1';
                 OptionsTable.style.animationPlayState = 'running';
                 setTimeout(() => { OptionsTable.remove(); OptionsButton.addEventListener('click', RevealOptions); }, 150);
@@ -45,7 +53,7 @@
                 TempButton.addEventListener('mouseover', (event) => {
                     OptionDescription = OptionsTable.appendChild(document.createElement('div'));
                     OptionDescription.id = "Description";
-                    OptionDescription.textContent = "x" + TempButton.textContent + " множитель сложности.";
+                    OptionDescription.textContent = "x" + TempButton.getAttribute("multiplier") + " множитель сложности.";
                 });
                 TempButton.addEventListener('mouseleave', (event) => {
                     document.getElementById("Description").remove();
